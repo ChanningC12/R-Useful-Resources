@@ -1,0 +1,39 @@
+Stratified Random Sampling
+```{r}
+library(caret)
+data(spam)
+spam = spam
+dim(spam)
+str(spam)
+prop.table(table(spam$type))
+mean(spam$all)
+```
+##### "Spam"" takes about 40% of the total types  
+##### Overall "all" is 0.28  
+##### We want out train and test set to keep the same proportion/mean on these two features  
+##### We will use createDataPartition and pass the features we want to stratify  
+
+```{r}
+ind = createDataPartition(c(spam$type,spam$all),p=0.5,list=F)
+spam_trn = spam[ind,]
+prop.table(table(spam_trn$type))
+mean(spam_trn$all,na.rm=T)
+spam_tst = spam[-ind,]
+prop.table(table(spam_tst$type))
+mean(spam_tst$all)
+```
+
+##### We can conclude that the same proportion/mean are generated for the train and test set
+
+SMOTE
+---
+##### SMOTE: Synthetic Minority Over-sampling Techniques  
+##### rare events: <15% target variables, imbalanced, SMOTE can help oversample the dataset. It uses bootstrapping and k-nearest neighbors and synthetically create more observations
+
+```{r}
+library(DMwR)
+SMOTE
+```
+- perc.over = k, how much you want to oversample  
+- perc.under = k, how much you want to undersample
+
